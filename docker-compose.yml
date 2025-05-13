@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  kasm-desktop:
+    build: .
+    container_name: gaming-desktop
+    environment:
+      - VNC_PW=root
+      - RESOLUTION=1920x1080
+      - DISPLAY=:1
+      - PULSE_SERVER=unix:/run/user/1000/pulse/native
+      - DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+    ports:
+      - "6901:6901"
+    volumes:
+      - steam_data:/home/kasm-user/.steam
+      - game_data:/home/kasm-user/games
+      - documents:/home/kasm-user/Documents
+      - downloads:/home/kasm-user/Downloads
+      - /run/user/1000/pulse:/run/user/1000/pulse
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped
+
+volumes:
+  steam_data:
+  game_data:
+  documents:
+  downloads:
